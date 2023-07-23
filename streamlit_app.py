@@ -18,8 +18,15 @@ my_fruit_list = pd.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/da
 my_fruit_list = my_fruit_list.set_index('Fruit')
 
 # put a pick list here so users can pick the fruit they want to include 
-# filter the table data based on the fruits a customer will choose, so we'll pre-populate the list to set an example for the customer
-st.multiselect("Pick some fruits:", list(my_fruit_list.index), ['Avocado', 'Strawberries'])
+# pre-populate the list to set an example for the customer
+fruits_selected = st.multiselect("Pick some fruits:", list(my_fruit_list.index), ['Avocado', 'Strawberries'])
+fruits_to_show = my_fruit_list.loc[fruits_selected]
 
 # display the whole fruits table on the page
-st.dataframe(my_fruit_list)
+# st.dataframe(my_fruit_list)
+
+# Filter the Table Data - We'll ask our app to put the list of selected fruits into a variable called fruits_selected. 
+# Then, we'll ask our app to use the fruits in our fruits_selected list to pull rows from the full data set (and assign that data to a variable called fruits_to_show). 
+# Finally, we'll ask the app to use the data in fruits_to_show in the dataframe it displays on the page. 
+st.dataframe(fruits_to_show)
+
