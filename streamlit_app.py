@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import requests
 
 st.title("My Parents New Healthy Diner")
 
@@ -30,3 +31,6 @@ fruits_to_show = my_fruit_list.loc[fruits_selected]
 # Finally, we'll ask the app to use the data in fruits_to_show in the dataframe it displays on the page. 
 st.dataframe(fruits_to_show)
 
+# new section to display FruityVice API response
+fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
+st.text(fruityvice_response)
