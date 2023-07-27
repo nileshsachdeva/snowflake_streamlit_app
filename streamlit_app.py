@@ -40,7 +40,7 @@ def get_fruityvice_data(this_fruit_choice):
   return fruityvice_normalized
 
 # new section to display FruityVice API response
-st.header("Fruityvice Fruit Advice!")
+st.header("View Our Fruit List - Add Your Favorites")
 
 # Move the Fruityvice Code into a Try-Except (with a nested If-Else)
 # Introducing this structure allows us to separate the code that is loaded once from the code that should be repeated each time a new value is entered.
@@ -74,9 +74,10 @@ def get_fruit_load_list():
     return my_cur.fetchall()
 
 # add button to load the fruit
-if st.button("Get Fruit Load List"):
+if st.button("Get Fruit List"):
   my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
   my_data_rows = get_fruit_load_list()
+  my_cnx.close()
   st.dataframe(my_data_rows)
 
 # my_data_row = my_cur.fetchone()
@@ -94,4 +95,5 @@ add_my_fruit = st.text_input("What fruit would you like to add?")
 if st.button("Add a Fruit to the List"):
   my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
   back_from_fxn = insert_row_snowflake(add_my_fruit)
+  my_cnx.close()
   st.text(back_from_fxn)
