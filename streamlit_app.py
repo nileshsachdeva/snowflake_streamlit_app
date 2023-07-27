@@ -48,6 +48,9 @@ fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_c
 fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
 st.dataframe(fruityvice_normalized)
 
+# don't run anything past here while we troubleshoot
+# st.stop()
+
 # # query snowflake account metadata
 # my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
 # my_cur = my_cnx.cursor()
@@ -64,3 +67,8 @@ my_cur.execute("SELECT * FROM FRUIT_LOAD_LIST")
 my_data_row = my_cur.fetchall()
 st.text("The fruit load list contains:")
 st.dataframe(my_data_row)
+
+# add fruits by user
+add_my_fruit = st.input("What fruit would you like to add?")
+my_cur.execute("INSERT INTO FRUIT_LOAD_LIST VALUES ('from streamlit')")
+st.write("Thanks for adding " + add_my_fruit)
