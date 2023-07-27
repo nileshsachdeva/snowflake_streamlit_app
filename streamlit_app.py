@@ -82,9 +82,16 @@ if st.button("Get Fruit Load List"):
 # my_data_row = my_cur.fetchone()
 
 # don't run anything past here while we troubleshoot
-st.stop()
+# st.stop()
 
 # add fruits by user
+def insert_row_snowflake(new_fruit):
+  with my_cnx.cursor() as my_cur:
+  my_cur.execute("INSERT INTO FRUIT_LOAD_LIST VALUES ('from streamlit')")
+  return "Thanks for adding " + new_fruit
+  
 add_my_fruit = st.text_input("What fruit would you like to add?")
-my_cur.execute("INSERT INTO FRUIT_LOAD_LIST VALUES ('from streamlit')")
-st.write("Thanks for adding " + add_my_fruit)
+if st.button("Add a Fruit to the List"):
+  my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
+  back_from_fxn = insert_row_snowflake(new_fruit)
+  st.text(back_from_fxn)
