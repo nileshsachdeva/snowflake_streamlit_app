@@ -36,18 +36,19 @@ st.dataframe(fruits_to_show)
 # new section to display FruityVice API response
 st.header("Fruityvice Fruit Advice!")
 
-# user input for fruit
-fruit_choice = st.text_input("What fruit would you like information about?", "Kiwi")
-st.write("The user entered ", fruit_choice)
-
-# separate the base URL from the fruit name (which will make it easier to use a variable there)
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
-
-# st.text(fruityvice_response.json()) # just writes data to the screen
-
-# normalize json 
-fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
-st.dataframe(fruityvice_normalized)
+# Move the Fruityvice Code into a Try-Except (with a nested If-Else)
+# Introducing this structure allows us to separate the code that is loaded once from the code that should be repeated each time a new value is entered.
+try:
+  # user input for fruit
+  fruit_choice = st.text_input("What fruit would you like information about?")
+  if not fruit_choice:
+    st.error("Please select a fruit to get information.")
+  else:
+    fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
+    fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
+    st.dataframe(fruityvice_normalized)
+except URLError as e:
+  st.error()
 
 # don't run anything past here while we troubleshoot
 st.stop()
